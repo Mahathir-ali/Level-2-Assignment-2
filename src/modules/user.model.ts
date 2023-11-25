@@ -88,6 +88,9 @@ const userSchema = new Schema<TUser>({
     default: false,
   },
 });
-
+userSchema.statics.isUserExist = async function name(id: number) {
+  const exsitingUser = await User.findOne({ userId: id });
+  return exsitingUser;
+};
 // creating a collection in database
 export const User = model<TUser>("User", userSchema);
