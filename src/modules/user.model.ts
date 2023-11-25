@@ -1,5 +1,14 @@
 import { Schema, model } from "mongoose";
-import { TOrders, TUser, TUserAddress, TUsername } from "./user.interface";
+import bcrypt from "bcrypt";
+import {
+  TOrders,
+  TUser,
+  TUserAddress,
+  TUsername,
+  UserModel,
+} from "./user.interface";
+import config from "../app/config";
+
 const userNameSchema = new Schema<TUsername>({
   firstName: {
     type: String,
@@ -45,7 +54,7 @@ const ordersSchema = new Schema<TOrders>({
   },
 });
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
     required: true,
@@ -88,9 +97,42 @@ const userSchema = new Schema<TUser>({
     default: false,
   },
 });
+userSchema.pre("save", async function (next) {
+  // hashing password '
+
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+
+  next();
+});
+
+userSchema.set("toJSON", {
+  transform: function (doc, ret, opt) {
+    delete ret.password; //
+    return ret;
+  },
+});
+
+userSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
 userSchema.statics.isUserExist = async function name(id: number) {
   const exsitingUser = await User.findOne({ userId: id });
   return exsitingUser;
 };
+userSchema.statics.ifUserExist = async function name(id: number) {
+  const exsitingUser = await User.findOne({ userId: { $ne: id } });
+  return exsitingUser;
+};
+
 // creating a collection in database
-export const User = model<TUser>("User", userSchema);
+export const User = model<TUser, UserModel>("User", userSchema);

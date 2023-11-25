@@ -37,6 +37,7 @@ const getAllUser = async (req: Request, res: Response) => {
     });
   }
 };
+
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -78,9 +79,73 @@ const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.deleteSingleUser(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully! ",
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: "User not found",
+      },
+    });
+  }
+};
+const userOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.getUserOrdersFromDB(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: "Order fetched successfully! ",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: "User not found",
+      },
+    });
+  }
+};
+const totalPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.getUserTotalPrice(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: "Total price calculated successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: "User not found",
+      },
+    });
+  }
+};
+
 export const UserController = {
   createUser,
   getAllUser,
   getSingleUser,
   updateUser,
+  deleteUser,
+  userOrders,
+  totalPrice,
 };
