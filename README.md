@@ -1,11 +1,18 @@
 #How To run this project locally
-. To Create User ---> (POST) http://localhost:5000/api/users
-. To Get all users --> (GET) http://localhost:5000/api/users
-. To Get single user --> (GET) http://localhost:5000/api/users/:userId
-. For Updating a user --> (PUT) http://localhost:5000/api/users/:userId
-. To Get Specific user orders --> (GET) http://localhost:5000/api/users/:userId/orders
-. To Get Specific user orders Total amount --> (GET) http://localhost:5000/api/users/:userId/orders/total-price
-.To Delete a Specific user --> (GET) http://localhost:5000/api/users/:userId
+. To Create User ---> 
+(POST) http://localhost:5000/api/users
+. To Get all users -->
+(GET) http://localhost:5000/api/users
+. To Get single user --> 
+(GET) http://localhost:5000/api/users/:userId
+. For Updating a user --> 
+(PUT) http://localhost:5000/api/users/:userId
+. To Get Specific user orders --> 
+(GET) http://localhost:5000/api/users/:userId/orders
+. To Get Specific user orders Total amount --> 
+(GET) http://localhost:5000/api/users/:userId/orders/total-price
+.To Delete a Specific user --> 
+(GET) http://localhost:5000/api/users/:userId
 
 
 
