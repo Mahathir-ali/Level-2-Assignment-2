@@ -1,4 +1,4 @@
-#How To run this project locally
+# How To run this project locally
 . To Create User ---> 
 (POST) http://localhost:5000/api/users
 . To Get all users -->
